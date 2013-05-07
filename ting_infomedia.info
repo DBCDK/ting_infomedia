@@ -1,7 +1,7 @@
 name = Ting Infomedia
 description = Module for linking and viewing Infomedia articles and reviews.
 package = Ding!
-version = 7.x-1.9
+version = 7.x-1.10
 core = 7.x
 
 ; note bibdk_favourite has dependency to ting_agency. Also, the 'ting_agency_library' theme function is used here
