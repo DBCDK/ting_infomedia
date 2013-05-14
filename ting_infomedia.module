@@ -12,6 +12,7 @@ function ting_infomedia_ting_client_webservice() {
   $ret = array();
   $ret['infomediaArticle']['class'] = 'TingClientInfomediaArticleRequest';
   $ret['infomediaArticle']['url'] = 'ting_infomedia_url';
+  $ret['infomediaArticle']['custom_parse'] = 'parse';
 
   return $ret;
 }
@@ -285,7 +286,8 @@ function ting_infomedia_get_article($id) {
   }
 
   $client = new ting_client_class();
-  $ret = $client->do_infomedia($params);
+ //$ret = $client->do_infomedia($params);
+  $ret = $client->do_request('infomediaArticle', $params);
 
   return $ret;
 
