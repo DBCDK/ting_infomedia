@@ -94,6 +94,28 @@ function ting_infomedia_requirements($phase) {
   return $requirements;
 }
 
+/**
+ * Implements hook_schema().
+ */
+function ting_infomedia_schema() {
+  $schema['bibdk_cache_infomedia_webservice'] = drupal_get_schema_unprocessed('system', 'cache');
+  return $schema;
+}
+
+/**
+ * Implements hook_update_N
+ * make a cache table 
+ */
+function ting_infomedia_update_7001() {
+  $name = 'bibdk_cache_infomedia_webservice';
+  $schema = drupal_get_schema_unprocessed('system', 'cache');
+  try {
+    db_create_table($name, $schema);
+  } catch (Exception $e) {
+    // do nothing table probably already exists
+  }
+}
+
 
 /**
  * Convert blackhole field storage to virtual field.
