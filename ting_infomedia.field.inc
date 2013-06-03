@@ -56,10 +56,11 @@ function _ting_infomedia_get_link($id, $relation_uri) {
   $user_status = _ting_infomedia_get_user_status();
 
   $link = array(
-    '#href' => _ting_infomedia_get_href($id, $user_status, $relation_uri),
-    '#title' => $title,
-    '#popup' => (($user_status == 'user_is_infomedia_user') ? 'bibdk-popup-link ' : ''),
-    '#data-pid' => $id,
+    '#href'         => _ting_infomedia_get_href($id, $user_status, $relation_uri),
+    '#title'        => $title,
+    '#popup'        => (($user_status == 'user_is_infomedia_user') ? 'bibdk-popup-link ' : ''),
+    '#popover'      => (($user_status == 'user_is_infomedia_user') ? '' : 'popover-button '),
+    '#data-pid'     => $id,
     '#user-message' => _ting_infomedia_get_user_message($user_status, $relation_uri),
   );
 
@@ -174,20 +175,22 @@ function _ting_infomedia_get_user_message($user_status, $relation_uri) {
 
   switch ( $user_status ) {
     CASE 'user_is_not_provider_user': // link to login
-          return l( t('infomedia_library_list', array(), array('context' => 'ting_infomedia')), 'overlay/infomedia/library_list', array('attributes' => array('rel' => 'bibdkFavorite', 'class' => array('bibdk-popup-link')))) .
-                 '<br/>' .
-                 l(t($user_status, array(), array('context' => 'ting_infomedia.error')), 'user');
+          return
+            l(t($user_status, array(), array('context' => 'ting_infomedia.error')), 'user') .
+            '<br/>' .
+            l( t('infomedia_library_list', array(), array('context' => 'ting_infomedia')), 'overlay/infomedia/library_list', array('attributes' => array('rel' => 'bibdkFavorite', 'class' => array('bibdk-popup-link'))));
           break;
-    CASE 'user_has_no_favourite_library': // link to favorites
+    CASE 'borchk_borrower_not_found':
     CASE 'user_no_userdata':
     CASE 'user_incomplete_userdata':
           return l( t($user_status, array(), array('context' => 'ting_infomedia.error')), 'user/' . $user->uid . '/edit/bibdk_favourite_list');
           break;
+    CASE 'user_has_no_favourite_library': // link to favorites
     CASE 'not_infomedia_library':
           return
-            l( t('infomedia_library_list', array(), array('context' => 'ting_infomedia')), 'overlay/infomedia/library_list', array('attributes' => array('rel' => 'bibdkFavorite', 'class' => array('bibdk-popup-link')))) .
+            l( t($user_status, array(), array('context' => 'ting_infomedia.error')), 'user/' . $user->uid . '/edit/bibdk_favourite_list') .
             '<br/>' .
-            l( t($user_status, array(), array('context' => 'ting_infomedia.error')), 'user/' . $user->uid . '/edit/bibdk_favourite_list');
+            l( t('infomedia_library_list', array(), array('context' => 'ting_infomedia')), 'overlay/infomedia/library_list', array('attributes' => array('rel' => 'bibdkFavorite', 'class' => array('bibdk-popup-link'))));
           break;
     DEFAULT:
           return  t($user_status, array(), array('context' => 'ting_infomedia'));

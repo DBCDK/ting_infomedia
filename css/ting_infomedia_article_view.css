@@ -10,7 +10,7 @@ h4 {
 div.infomedia_HeadLine {
   font-size: 1.5em;
   font-weight: bold;
-  min-height: 55px;
+  min-height: 40px;
   margin-right: 200px;
   padding-bottom: 0.25em;
 }
@@ -78,20 +78,19 @@ div.select {
   float:left;
 }
 
-div.infomedia-image {
-  float:right;
+div.logo-image {
+  float:left;
   position:relative;
-  margin-top: 20px;
+  margin-top: 5px;
   margin-right: 20px;
-  top:0.5em;
-  right:0.5em;
 }
 
 div.infomedia-image {
-  position:absolute;
-  right:1em;
-  top:1em;
-  z-index:1000;
+  float:right;
+  position:relative;
+  margin-top: 5px;
+  margin-left: 5px;
+  margin-bottom: 15px;
 }
 
 div.infomedia_print {
@@ -115,4 +114,13 @@ div.infomedia_logo {
 div.infomedia-footer {
   border-top: 1px dotted #CCCCCC;
   text-align:center
+}
+
+p.pop-up-print {
+  float: left;
+  cursor: pointer;
+}
+
+p.pop-up-print img {
+  margin-right: 5px;
 }
