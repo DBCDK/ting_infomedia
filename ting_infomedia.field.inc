@@ -88,6 +88,7 @@ function _ting_infomedia_get_user_status() {
 
   foreach ($favourites as $fav) {
     $favourite = unserialize($fav);
+// dpm($favourite);
     if ( $favourite->getOrderAgency() ) {
       $library_code = $favourite->getAgencyId();
       $user_id = $favourite->getUserId();
@@ -104,7 +105,7 @@ function _ting_infomedia_get_user_status() {
     return 'user_incomplete_userdata';
   }
 
-  $library_list = bibdk_navfors_get_library_list('infomedia');
+  $library_list = bibdk_forsrights_get_library_list('infomedia');
 
   if ( !in_array($library_code, $library_list) ) {
     return 'not_infomedia_library';

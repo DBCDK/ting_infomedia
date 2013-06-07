@@ -10,7 +10,7 @@ dependencies[] = ding_user
 dependencies[] = ting_infomedia_field
 dependencies[] = ting_openformat
 dependencies[] = virtual_field
-dependencies[] = bibdk_navfors
+dependencies[] = bibdk_forsrights
 
 
 files[] = ting_infomedia.field.inc

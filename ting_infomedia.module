@@ -48,33 +48,41 @@ function ting_infomedia_menu() {
  */
 function ting_infomedia_librarylist() {
 
-  $list = bibdk_navfors_get_library_list('infomedia');
+  $ret = array();
 
-  foreach ($list as $agencyId) {
-    $agency = new TingAgency($agencyId);
-    $ret[] = $agency;
-  }
+  $list = bibdk_forsrights_get_library_list('infomedia');
 
-  $ret['#markup'] = '<p class="library-list-header">' . t('list_of_libraries_with_infomedia_acces', array(), array('context' => 'ting_infomedia')) . '</p>';
-  foreach ($ret as $key => $val) {
-    if (is_object($val)) {
-      $branch = $val->getBranch();
-      if (isset($branch)) {
-        $branchName = $branch->branchName;
-        if (isset($branchName)) {
-          $moreinfo = theme('ting_agency_more_info', array('branch' => $branch,
-            'openingHours' => theme('ting_agency_opening_hours', array('branch' => $branch)),
-            'tools' => theme('ting_agency_tools', array('branch' => $branch)),
-            'address' => theme('ting_agency_address', array('branch' => $branch)),
-            'contact' => theme('ting_agency_contact', array('branch' => $branch)),
-              )
-          );
-          $ret['#markup'] .= theme('ting_agency_library', array('branchName' => $branchName, 'moreinfo' => $moreinfo));
+  if ( $list ) {
+
+    foreach ($list as $agencyId) {
+      $agency = new TingAgency($agencyId);
+      $ret[] = $agency;
+    }
+
+    $ret['#markup'] = '<p class="library-list-header">' . t('list_of_libraries_with_infomedia_acces', array(), array('context' => 'ting_infomedia')) . '</p>';
+    foreach ($ret as $key => $val) {
+      if (is_object($val)) {
+        $branch = $val->getBranch();
+        if (isset($branch)) {
+          $branchName = $branch->branchName;
+          if (isset($branchName)) {
+            $moreinfo = theme('ting_agency_more_info', array('branch' => $branch,
+              'openingHours' => theme('ting_agency_opening_hours', array('branch' => $branch)),
+              'tools' => theme('ting_agency_tools', array('branch' => $branch)),
+              'address' => theme('ting_agency_address', array('branch' => $branch)),
+              'contact' => theme('ting_agency_contact', array('branch' => $branch)),
+                )
+            );
+            $ret['#markup'] .= theme('ting_agency_library', array('branchName' => $branchName, 'moreinfo' => $moreinfo));
+          }
         }
       }
     }
+
   }
+
   return $ret;
+
 }
 
 /**
