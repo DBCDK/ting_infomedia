@@ -312,3 +312,7 @@ function ting_infomedia_get_article($id) {
 
   return $ret;
 }
+
+t('user_incomplete_userdata', array(), array('context' => 'ting_infomedia.error'));
+t('not_infomedia_library', array(), array('context' => 'ting_infomedia.error'));
+t('service_unavailable', array(), array('context' => 'ting_infomedia.error'));
