@@ -316,3 +316,8 @@ function ting_infomedia_get_article($id) {
 t('user_incomplete_userdata', array(), array('context' => 'ting_infomedia.error'));
 t('not_infomedia_library', array(), array('context' => 'ting_infomedia.error'));
 t('service_unavailable', array(), array('context' => 'ting_infomedia.error'));
+t('service_not_licensed', array(), array('context' => 'ting_infomedia.error'));
+t('library_not_found', array(), array('context' => 'ting_infomedia.error'));
+t('borrowercheck_not_allowed', array(), array('context' => 'ting_infomedia.error'));
+t('borrower_not_found', array(), array('context' => 'ting_infomedia.error'));
+t('error_in_request', array(), array('context' => 'ting_infomedia.error'));
