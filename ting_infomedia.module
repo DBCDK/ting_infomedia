@@ -267,6 +267,7 @@ function ting_infomedia_get_article($id) {
 
   // if we get this far we can assume that favourites are set in session
   $favourites = _ting_infomedia_get_favourites();
+  $agencyMainId = NULL;
   $library_code = NULL;
   $user_id = NULL;
   $user_pincode = NULL;
