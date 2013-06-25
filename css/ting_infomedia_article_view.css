@@ -11,7 +11,7 @@ div.infomedia_HeadLine {
   font-size: 1.5em;
   font-weight: bold;
   min-height: 40px;
-  margin-right: 200px;
+  margin-right: 100px;
   padding-bottom: 0.25em;
 }
 
@@ -116,11 +116,13 @@ div.infomedia-footer {
   text-align:center
 }
 
-p.pop-up-print {
-  float: left;
+div.pop-up-print {
   cursor: pointer;
+  position: absolute;
+  right: 30px;
+  top: 94px;
 }
 
-p.pop-up-print img {
+div.pop-up-print img {
   margin-right: 5px;
 }
