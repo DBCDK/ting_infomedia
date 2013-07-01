@@ -102,20 +102,6 @@ function ting_infomedia_schema() {
   return $schema;
 }
 
-/**
- * Implements hook_update_N
- * make a cache table 
- */
-function ting_infomedia_update_7001() {
-  $name = 'bibdk_cache_infomedia_webservice';
-  $schema = drupal_get_schema_unprocessed('system', 'cache');
-  try {
-    db_create_table($name, $schema);
-  } catch (Exception $e) {
-    // do nothing table probably already exists
-  }
-}
-
 
 /**
  * Convert blackhole field storage to virtual field.
@@ -130,3 +116,23 @@ function ting_infomedia_update_7000() {
     ->execute();
 }
 
+/**
+ * Implements hook_update_N
+ * make a cache table
+ */
+function ting_infomedia_update_7001() {
+  $name = 'bibdk_cache_infomedia_webservice';
+  $schema = drupal_get_schema_unprocessed('system', 'cache');
+  try {
+    db_create_table($name, $schema);
+  } catch (Exception $e) {
+    // do nothing table probably already exists
+  }
+}
+
+/**
+ * Remove field ting_infomedia_link. the link is implemented with a hook instead
+ */
+function ting_infomedia_update_7002(){
+  field_delete_field('ting_infomedia_link');
+}
