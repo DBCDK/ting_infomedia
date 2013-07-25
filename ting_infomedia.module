@@ -52,15 +52,8 @@ function ting_infomedia_menu() {
 function ting_infomedia_ting_openformat_actions($type, $entity, $view_mode, $langcode){
   $element = array();
   if ($type == 'bibdkManifestation' && $url = $entity->getInfomediaLink()){
-
       $link = _ting_infomedia_get_link($entity->id, $url);
-      $element['infomedia'] = array(
-        '#theme' => 'ting_infomedia_button',
-        'ting_infomedia_button' => $link,
-        '#markup' => theme('bibdk_cart_button', array('add_to_cart' => $link)),
-        '#weight' => 1
-    );
-
+      $element['infomedia']['#markup'] = theme('ting_infomedia_button', array('ting_infomedia_button' => $link));
   }
   return $element;
 }
