@@ -78,11 +78,12 @@ function ting_infomedia_librarylist() {
     }
 
     $ret['#markup'] = '<p class="library-list-header">' . t('list_of_libraries_with_infomedia_acces', array(), array('context' => 'ting_infomedia')) . '</p>';
+    global $language;
     foreach ($ret as $key => $val) {
       if (is_object($val)) {
         $branch = $val->getBranch();
         if (isset($branch)) {
-          $branchName = $branch->branchName;
+          $branchName = $branch->getBranchName($language->language);
           if (isset($branchName)) {
             $moreinfo = theme('ting_agency_more_info', array('branch' => $branch,
               'openingHours' => theme('ting_agency_opening_hours', array('branch' => $branch)),
