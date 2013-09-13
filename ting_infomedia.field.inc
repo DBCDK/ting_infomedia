@@ -179,7 +179,7 @@ function _ting_infomedia_get_user_message($user_status, $relation_uri) {
           return
             l(t($user_status, array(), array('context' => 'ting_infomedia.error')), 'user') .
             '<br/>' .
-            l( t('infomedia_library_list', array(), array('context' => 'ting_infomedia')), 'overlay/infomedia/library_list', array('attributes' => array('rel' => 'bibdkFavorite', 'class' => array('bibdk-popup-link'))));
+            l( t('infomedia_library_list', array(), array('context' => 'ting_infomedia')), 'overlay/infomedia/library_list', array('attributes' => array('data-rel' => 'bibdkFavorite', 'class' => array('bibdk-popup-link'))));
           break;
     CASE 'borchk_borrower_not_found':
     CASE 'user_no_userdata':
@@ -191,7 +191,7 @@ function _ting_infomedia_get_user_message($user_status, $relation_uri) {
           return
             l( t($user_status, array(), array('context' => 'ting_infomedia.error')), 'user/' . $user->uid . '/edit/bibdk_favourite_list') .
             '<br/>' .
-            l( t('infomedia_library_list', array(), array('context' => 'ting_infomedia')), 'overlay/infomedia/library_list', array('attributes' => array('rel' => 'bibdkFavorite', 'class' => array('bibdk-popup-link'))));
+            l( t('infomedia_library_list', array(), array('context' => 'ting_infomedia')), 'overlay/infomedia/library_list', array('attributes' => array('data-rel' => 'bibdkFavorite', 'class' => array('bibdk-popup-link'))));
           break;
     DEFAULT:
           return  t($user_status, array(), array('context' => 'ting_infomedia'));
