@@ -111,13 +111,15 @@ function _ting_infomedia_get_user_status() {
     return 'not_infomedia_library';
   }
 
-  $library_code = ( (int)$library_code === 0 ) ? $library_code : 'DK-' . $library_code;
-  $borchk = bibdk_borchk_request($user_id, $user_pincode, $library_code);
-  $borchk_message = _ting_infomedia_borchk_parse_response($borchk->borrowerCheckResponse->requestStatus);
-  if ( $borchk_message ) {
-    return $borchk_message;
+  $check_me = $favourite->getAgencyFields()->isBorrowerCheckRequired();
+  if ($check_me) {
+    $library_code = ( (int)$library_code === 0 ) ? $library_code : 'DK-' . $library_code;
+    $borchk = bibdk_borchk_request($user_id, $user_pincode, $library_code);
+    $borchk_message = _ting_infomedia_borchk_parse_response($borchk->borrowerCheckResponse->requestStatus);
+    if ( $borchk_message ) {
+      return $borchk_message;
+    }
   }
-
   return 'user_is_infomedia_user';
 }
 
