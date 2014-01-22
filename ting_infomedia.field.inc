@@ -89,7 +89,7 @@ function _ting_infomedia_get_user_status() {
   foreach ($favourites as $fav) {
     $favourite = unserialize($fav);
     if ( $favourite->getOrderAgency() ) {
-      $agencyMainId = $favourite->getAgencyMainId();
+      $agency_main_id = $favourite->getAgencyMainId();
       $library_code = $favourite->getAgencyId();
       $user_id = $favourite->getUserId();
       $user_pincode = $favourite->getPinCode();
@@ -107,7 +107,7 @@ function _ting_infomedia_get_user_status() {
 
   $library_list = bibdk_forsrights_get_library_list('infomedia');
 
-  if ( !in_array($library_code, $library_list) && !in_array($agencyMainId, $library_list)) {
+  if ( !in_array($library_code, $library_list) && !in_array($agency_main_id, $library_list)) {
     return 'not_infomedia_library';
   }
 

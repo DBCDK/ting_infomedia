@@ -109,7 +109,7 @@ function ting_infomedia_librarylist() {
             );
             $ret['#sortme'] = $branchName;
             $ret['#markup'] .=
-                theme('ting_agency_library', array('branchName' => $branchName, 'moreinfo' => $moreinfo, 'add_classes' => array('ting-infomedia-agency-list'),));
+                theme('ting_agency_library', array('branchName' => $branchName, 'moreinfo' => $moreinfo, 'add_classes' => array('ting-infomedia-agency-list')));
           }
         }
       }
@@ -248,7 +248,7 @@ function ting_infomedia_parse_articles($id) {
       '#theme' => 'item_list',
       '#type' => 'ul',
       '#attributes' => array(
-        'class' => array('article-tabs'),
+        'class' => array('article-tabs', 'clearfix'),
       ),
       '#items' => array(),
     ),
@@ -271,7 +271,8 @@ function ting_infomedia_parse_articles($id) {
     foreach ( $obj->parts as $n => $val ) {
       if ( $error = _ting_infomedia_parse_for_article_error($val) ) {
         $render['error'] = _ting_infomedia_parse_for_errors($error);
-      } else {
+      }
+      else {
         $render['article_list']['#items'][] = drupal_render(ting_infomedia_parse_article($val['article'], $n));
         $render['article_tabs']['#items'][] = ting_infomedia_parse_article_tabs($val['article'], $n);
       }
@@ -297,7 +298,7 @@ function ting_infomedia_parse_article($article, $n) {
     'article' => array(
       '#markup' => $article,
     ),
-    'class' => ( !$n ) ? 'first' : 'visuallyhidden',
+    'class' => ( !$n ) ? 'first active' : 'visuallyhidden',
     'id' => $n,
   );
 
@@ -316,7 +317,7 @@ function ting_infomedia_parse_article_tabs($article, $n) {
   $article = _ting_infomedia_clean_html($article);
 
   $exp = '/(<div class="infomedia_HeadLine">)(.+)(<\/div>)/';
-  $match = preg_match($exp,$article,$regs);
+  $match = preg_match($exp, $article, $regs);
   $headline = trim($regs[2]);
 
   $render = array(
@@ -336,11 +337,11 @@ function ting_infomedia_parse_article_tabs($article, $n) {
 function _shrink($cut) {
     $max=20;
     // check if headline contains ':'
-    if ( $index=strpos($cut,':') )
-        $cut=substr($cut,$index+1,strlen($cut));
+    if ( $index=strpos($cut, ':') )
+        $cut=substr($cut, $index+1, strlen($cut));
 
     if ( strlen($cut) > $max )
-        $cut=substr($cut,0,$max).'...';
+        $cut=substr($cut, 0, $max) . '...';
 
     return $cut;
 }

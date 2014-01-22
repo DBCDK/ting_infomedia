@@ -133,6 +133,6 @@ function ting_infomedia_update_7001() {
 /**
  * Remove field ting_infomedia_link. the link is implemented with a hook instead
  */
-function ting_infomedia_update_7002(){
+function ting_infomedia_update_7002() {
   field_delete_field('ting_infomedia_link');
 }
