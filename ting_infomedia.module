@@ -320,6 +320,11 @@ function ting_infomedia_parse_article_tabs($article, $n) {
   $match = preg_match($exp, $article, $regs);
   $headline = trim($regs[2]);
 
+  if ( !$headline ) {
+    $headline = t('headline_not_found', array(), array('context' => 'ting_infomedia.error'));
+    watchdog('ting_infomedia', 'Headline missing in Infomedia article', array(), WATCHDOG_ERROR);
+  }
+
   $render = array(
     'data' => _shrink($headline),
     'data-article-id' => $n,
@@ -466,3 +471,4 @@ t('library_not_found', array(), array('context' => 'ting_infomedia.error'));
 t('borrowercheck_not_allowed', array(), array('context' => 'ting_infomedia.error'));
 t('borrower_not_found', array(), array('context' => 'ting_infomedia.error'));
 t('error_in_request', array(), array('context' => 'ting_infomedia.error'));
+t('headline_not_found', array(), array('context' => 'ting_infomedia.error'));
