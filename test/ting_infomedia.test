@@ -40,20 +40,20 @@ class TingInfomediaTestCase extends DrupalWebTestCase {
   private function _test_clean_html() {
     $string = '<p id="p1">lorem lipsum</p><hl2>lorem lipsum</hl2>';
     $expected_result = '<p>lorem lipsum</p><h4>lorem lipsum</h4>';
-    _ting_infomedia_clean_html($string);
+    $string = _ting_infomedia_clean_html($string);
     $this->assertEqual($string, $expected_result, '_test_clean_html correctly parsed');
   }
 
   private function _ting_infomedia_parse_for_article_error_fail() {
     $result = array('verified' => NULL);
     $expected_result = 'Article not verified';
-    $result = ting_infomedia_parse_for_article_error($result);
-    $this->assertEqual($result, $expected_result, '_ting_infomedia_parse_for_article_error_fail correctly return "Article not verified"');
+    $result = _ting_infomedia_parse_for_article_error($result);
+    $this->assertEqual($result, $expected_result, '_ting_infomedia_parse_for_article_error correctly return "Article not verified"');
 
     $result = array('verified' => TRUE, 'article' => '');
     $expected_result = 'Article not found on infomedia';
-    $result = ting_infomedia_parse_for_article_error($result);
-    $this->assertEqual($result, $expected_result, '_ting_infomedia_parse_for_article_error_fail correctly return "Article not found on infomedia"');
+    $result = _ting_infomedia_parse_for_article_error($result);
+    $this->assertEqual($result, $expected_result, '_ting_infomedia_parse_for_article_error correctly return "Article not found on infomedia"');
   }
 
   private function _test_ting_infomedia_borchk_parse_response() {

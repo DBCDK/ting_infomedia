@@ -11,12 +11,14 @@
     </div>
 
     <div class="pop-up-print">
-      <?php echo $variables['element']['#print']; ?>
+      <?php echo $variables['element']['print']; ?>
     </div>
 
   </div>
 
-  <?php echo $variables['element']['#markup']; ?>
+  <div id="article-wrapper">
+    <?php echo drupal_render($variables['element']['articles']); ?>
+  </div>
 
   <div class="infomedia-footer">
 
