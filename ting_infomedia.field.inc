@@ -186,12 +186,12 @@ function _ting_infomedia_get_user_message($user_status, $relation_uri) {
     CASE 'borchk_borrower_not_found':
     CASE 'user_no_userdata':
     CASE 'user_incomplete_userdata':
-          return l( t($user_status, array(), array('context' => 'ting_infomedia.error')), 'user/' . $user->uid . '/edit/bibdk_favourite_list');
+          return l( t($user_status, array(), array('context' => 'ting_infomedia.error')), 'user/' . $user->uid . '/bibdk_favourite_list');
           break;
     CASE 'user_has_no_favourite_library': // link to favorites
     CASE 'not_infomedia_library':
           return
-            l( t($user_status, array(), array('context' => 'ting_infomedia.error')), 'user/' . $user->uid . '/edit/bibdk_favourite_list') .
+            l( t($user_status, array(), array('context' => 'ting_infomedia.error')), 'user/' . $user->uid . '/bibdk_favourite_list') .
             '<br/>' .
             l( t('infomedia_library_list', array(), array('context' => 'ting_infomedia')), 'overlay/infomedia/library_list', array('attributes' => array('data-rel' => 'bibdkFavorite', 'class' => array('bibdk-popup-link'))));
           break;
