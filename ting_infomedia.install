@@ -32,14 +32,14 @@ function ting_infomedia_ding_entity_fields() {
   $display_full = array(
     'default' => array(
       'label' => 'hidden',
-      'type' => 'default',
+      'type' => 'hidden',
     ),
     'reservation' => array(
       'type' => 'hidden',
     ),
     'full' => array(
       'label' => 'hidden',
-      'type' => 'default',
+      'type' => 'hidden',
     ),
   );
   return array(
