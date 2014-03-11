@@ -28,6 +28,7 @@ class TingInfomediaTestCase extends DrupalWebTestCase {
     $this->privileged_user = $this->drupalCreateUser(array(
       'search content',
       ));
+    $this->test_login_link();
     $this->drupalLogin($this->privileged_user);
     $this->_test_clean_html();
     $this->_ting_infomedia_parse_for_article_error_fail();
@@ -35,6 +36,16 @@ class TingInfomediaTestCase extends DrupalWebTestCase {
 
     return TRUE;
 
+  }
+
+  /** Test that login link is user/login .. not just user/
+   *
+   **/
+  private function test_login_link(){
+    $status = 'user_is_not_provider_user';
+    $link = _ting_infomedia_get_user_message($status, NULL);
+    $pos = strpos($link, 'user/login');
+    $this->assertTrue($pos !== FALSE,'Login link is: user/login');
   }
 
   private function _test_clean_html() {

@@ -179,7 +179,7 @@ function _ting_infomedia_get_user_message($user_status, $relation_uri) {
   switch ( $user_status ) {
     CASE 'user_is_not_provider_user': // link to login
           return
-            l(t($user_status, array(), array('context' => 'ting_infomedia.error')), 'user') .
+            l(t($user_status, array(), array('context' => 'ting_infomedia.error')), 'user/login') .
             '<br/>' .
             l( t('infomedia_library_list', array(), array('context' => 'ting_infomedia')), 'overlay/infomedia/library_list', array('attributes' => array('data-rel' => 'bibdkFavorite', 'class' => array('bibdk-popup-link'))));
           break;
