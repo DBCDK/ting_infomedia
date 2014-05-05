@@ -238,6 +238,7 @@ t('user_no_userdata', array(), array('context' => 'ting_infomedia.error'));
 t('user_incomplete_userdata', array(), array('context' => 'ting_infomedia.error'));
 t('user_is_infomedia_user', array(), array('context' => 'ting_infomedia.error'));
 t('infomedia_library_list', array(), array('context' => 'ting_infomedia.error'));
+t('user_not_municipal', array(), array('context' => 'ting_infomedia.error'));
 
 t('borchk_borrower_not_found', array(), array('context' => 'ting_infomedia.error'));
 t('borchk_internal_error', array(), array('context' => 'ting_infomedia.error'));
