@@ -148,6 +148,12 @@ function _ting_infomedia_borchk_parse_response($response) {
     case 'borrower_not_found' :
       return 'borchk_borrower_not_found';
       break;
+    case 'borrower_not_in_municipality' :
+      return 'borrower_not_in_municipality';
+      break;
+    case 'municipality_check_not_supported_by_library' :
+      return 'municipality_check_not_supported_by_library';
+      break;
     case 'error_in_request' :
     case 'service unavailable' :
     case 'borrowercheck_not_allowed' :
