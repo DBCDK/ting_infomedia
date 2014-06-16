@@ -114,12 +114,19 @@ function _ting_infomedia_get_user_status() {
   $check_me = $favourite->getAgencyFields()->isBorrowerCheckRequired();
   if ($check_me) {
     $library_code = ( (int)$library_code === 0 ) ? $library_code : 'DK-' . $library_code;
+    $ServiceRequesterBuffer = variable_get('bibdk_borchk_servicerequester');
+    // use infomedia servicerequester to catch "user_not_municipal" error
+    variable_set('bibdk_borchk_servicerequester', 'infomedia');
     $borchk = bibdk_borchk_request($user_id, $user_pincode, $library_code);
+    variable_set('bibdk_borchk_servicerequester', $ServiceRequesterBuffer);
     $borchk_message = _ting_infomedia_borchk_parse_response($borchk->borrowerCheckResponse->requestStatus);
     if ( $borchk_message ) {
       return $borchk_message;
     }
   }
+
+  
+
   return 'user_is_infomedia_user';
 }
 
@@ -140,6 +147,12 @@ function _ting_infomedia_borchk_parse_response($response) {
       break;
     case 'borrower_not_found' :
       return 'borchk_borrower_not_found';
+      break;
+    case 'borrower_not_in_municipality' :
+      return 'borrower_not_in_municipality';
+      break;
+    case 'municipality_check_not_supported_by_library' :
+      return 'municipality_check_not_supported_by_library';
       break;
     case 'error_in_request' :
     case 'service unavailable' :
@@ -238,7 +251,8 @@ t('user_no_userdata', array(), array('context' => 'ting_infomedia.error'));
 t('user_incomplete_userdata', array(), array('context' => 'ting_infomedia.error'));
 t('user_is_infomedia_user', array(), array('context' => 'ting_infomedia.error'));
 t('infomedia_library_list', array(), array('context' => 'ting_infomedia.error'));
-t('user_not_municipal', array(), array('context' => 'ting_infomedia.error'));
+t('municipality_check_not_supported_by_library', array(), array('context' => 'ting_infomedia.error'));
+t('borrower_not_in_municipality', array(), array('context' => 'ting_infomedia.error'));
 
 t('borchk_borrower_not_found', array(), array('context' => 'ting_infomedia.error'));
 t('borchk_internal_error', array(), array('context' => 'ting_infomedia.error'));

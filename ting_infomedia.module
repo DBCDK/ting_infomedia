@@ -278,7 +278,7 @@ function ting_infomedia_parse_articles($id) {
       }
     }
   }
-
+  
   return $render;
 
 }
@@ -360,7 +360,7 @@ function _shrink($cut) {
 function _ting_infomedia_parse_for_errors($error = '') {
   if ( $error ) {
     $error = array(
-      '#markup' => t($result->error, array(), array('context' => 'ting_infomedia.error')),
+      '#markup' => t($error, array(), array('context' => 'ting_infomedia.error')),
       '#prefix' => '<div class="infomedia_error">',
       '#suffix' => '</div>'
     );
@@ -375,10 +375,10 @@ function _ting_infomedia_parse_for_errors($error = '') {
  * parameter $part - an array holding one article
  */
 function _ting_infomedia_parse_for_article_error($part) {
-  if (!$part['verified']) {
+  if ( !$part['verified'] ) {
     return t('Article not verified', array(), array('context' => 'ting_infomedia'));
   }
-  if (empty($part['article'])) {
+  if ( empty($part['article']) ) {
     return t('Article not found on infomedia', array(), array('context' => 'ting_infomedia'));
   }
   return FALSE;
