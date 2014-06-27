@@ -114,11 +114,7 @@ function _ting_infomedia_get_user_status() {
   $check_me = $favourite->getAgencyFields()->isBorrowerCheckRequired();
   if ($check_me) {
     $library_code = ( (int)$library_code === 0 ) ? $library_code : 'DK-' . $library_code;
-    $ServiceRequesterBuffer = variable_get('bibdk_borchk_servicerequester');
-    // use infomedia servicerequester to catch "user_not_municipal" error
-    variable_set('bibdk_borchk_servicerequester', 'infomedia');
-    $borchk = bibdk_borchk_request($user_id, $user_pincode, $library_code);
-    variable_set('bibdk_borchk_servicerequester', $ServiceRequesterBuffer);
+    $borchk = bibdk_borchk_request($user_id, $user_pincode, $library_code, 'json', 'infomedia');
     $borchk_message = _ting_infomedia_borchk_parse_response($borchk->borrowerCheckResponse->requestStatus);
     if ( $borchk_message ) {
       return $borchk_message;
