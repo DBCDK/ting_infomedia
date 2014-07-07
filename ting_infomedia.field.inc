@@ -62,6 +62,7 @@ function _ting_infomedia_get_link($id, $relation_uri) {
     '#popover'      => (($user_status == 'user_is_infomedia_user') ? '' : 'popover-button '),
     '#data-pid'     => $id,
     '#user-message' => _ting_infomedia_get_user_message($user_status, $relation_uri),
+    '#weight' => 0,
   );
 
   return $link;
