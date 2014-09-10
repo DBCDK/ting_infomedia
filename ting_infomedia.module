@@ -362,11 +362,10 @@ function ting_infomedia_get_article($id) {
     return ting_infomedia_article_no_user();
   }
   else if($order_library = _ting_infomedia_get_user_order_library()) {
-    $agencyMainId = $order_library->getAgencyMainId();
-    $library_code = $order_library->getAgencyId();
-    $user_id = $order_library->getUserId();
-    $user_pincode = $order_library->getPinCode();
-    return _ting_infomedia_get_article_for_user_at_library($id, $user_id, $user_pincode, $library_code, $agencyMainId);
+    // We do not want possible messages coming from bibdk_favourite
+    // therefore we call drupal_get_messages to empty message que
+    drupal_get_messages();
+    return _ting_infomedia_get_article_for_user_at_library($id, $order_library->getUserId(), $order_library->getPinCode(), $order_library->getAgencyId(), $order_library->getAgencyMainId());
   }
   else {
     return drupal_get_form('ting_infomedia_no_library_form');

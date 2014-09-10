@@ -123,6 +123,7 @@ function ting_openformat_user_form_fields($form, $form_state, $branch) {
     $form['userParameters']['userfields'] = $fields;
   }
   $form['userParameters']['userfields']['wrapper']['submit']['#submit'][] = 'ting_openformat_user_form_fields_submit';
+  $form['#validate'] = $form['userParameters']['userfields']['#validate'];
   return $form;
 }
 
