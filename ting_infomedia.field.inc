@@ -58,8 +58,8 @@ function _ting_infomedia_get_link($id, $relation_uri) {
   $link = array(
     '#href'         => _ting_infomedia_get_href($id, $user_status, $relation_uri),
     '#title'        => $title,
-    '#popup'        => (($user_status == 'user_is_infomedia_user') ? 'bibdk-popup-link ' : ''),
-    '#popover'      => (($user_status == 'user_is_infomedia_user') ? '' : 'popover-button '),
+    '#popup'        => '', //(($user_status == 'user_is_infomedia_user') ? 'bibdk-popup-link ' : ''),
+    '#popover'      => '', // (($user_status == 'user_is_infomedia_user') ? '' : 'popover-button '),
     '#data-pid'     => $id,
     '#user-message' => _ting_infomedia_get_user_message($user_status, $relation_uri),
     '#weight' => 0,
@@ -122,7 +122,7 @@ function _ting_infomedia_get_user_status() {
     }
   }
 
-  
+
 
   return 'user_is_infomedia_user';
 }
@@ -222,7 +222,10 @@ function _ting_infomedia_get_user_message($user_status, $relation_uri) {
  * @return string
  */
 function _ting_infomedia_get_href($id, $user_status, $relation_uri) {
-
+  $query = drupal_parse_url($relation_uri);
+  if (isset($query['query']['faust'])){
+    return url('overlay/infomedia/' . $query['query']['faust']);
+  }
   switch ( $user_status ) {
     CASE 'user_is_infomedia_user':
           // NOTE url is of type   [useraccessinfomedia]?action=getArticle&faust=89724244&libraryCode=[libraryCode]&userId=[userId]&userPinCode=[userPinCode]
