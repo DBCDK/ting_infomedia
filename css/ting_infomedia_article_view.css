@@ -112,7 +112,8 @@ div.infomedia_logo {
 }
 
 div.infomedia-footer {
-  text-align:center
+  text-align:center;
+  margin: 1em 0;
 }
 
 div.pop-up-print {
