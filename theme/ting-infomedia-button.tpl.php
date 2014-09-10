@@ -1,8 +1,7 @@
 <a href="<?php print $ting_infomedia_button['#href'] ?>"
-   class="<?php print $ting_infomedia_button['#popup'] ?><?php print $ting_infomedia_button['#popover'] ?>infomedia-button text-small text-darkgrey"
+   class="<?php print $ting_infomedia_button['#popup'] ?><?php print $ting_infomedia_button['#popover'] ?>infomedia-button text-small"
    data-rel="infomedia">
-  <span class="icon icon-left icon-darkgrey-infomedia">&nbsp;</span>
-  <span class="link-infomedia infomedia-title" data-pid="<?php print $ting_infomedia_button['#data-pid'] ?>"><?php print $ting_infomedia_button['#title'] ?></span>
+  <span class="icon icon-left icon-darkgrey-infomedia">&nbsp;</span><span class="link-infomedia infomedia-title" data-pid="<?php print $ting_infomedia_button['#data-pid'] ?>"><?php print $ting_infomedia_button['#title'] ?></span>
 </a>
 
 <?php if ( !empty($ting_infomedia_button['#popover']) ) { ?>
