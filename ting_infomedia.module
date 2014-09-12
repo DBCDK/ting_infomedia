@@ -178,32 +178,6 @@ function ting_infomedia_theme($existing, $type, $theme, $path) {
 }
 
 
-
-/**
- * Implements hook_form_FORM_ID_alter (ting_admin_ting_settings) (ie. Ding2)
- * Adding infomedia url form field to ting configuration form
- */
-/*
-  function ting_infomedia_form_ting_admin_ting_settings_alter(&$form, &$form_state, $form_id) {
-  $form['infomedia'] = array(
-  '#type' => 'fieldset',
-  '#title' => t('Infomedia settings'),
-  '#description' => t('Settings for bibdk Infomedia', array(), array('context' => 'ting_infomedia')),
-  '#weight' => -3,
-  );
-
-  $form['infomedia']['ting_infomedia_url'] = array(
-  '#type' => 'textfield',
-  '#title' => t('Infomedia web service URL', array(), array('context' => 'ting_infomedia')),
-  '#description' => t('URL to the infomedia webservice (access to infomedia article base) , e.g. http://useraccessinfomedia.addi.dk/1.2/'),
-  '#required' => TRUE,
-  '#default_value' => variable_get('ting_infomedia_url', ''),
-  );
-  }
- */
-
-
-
 /**
  * Implements hook_form_FORM_ID_alter (ting_client_admin_webservices_settings) (ie. Bibliotek.dk)
  * Adding infomedia url form field to webservices configuration form
