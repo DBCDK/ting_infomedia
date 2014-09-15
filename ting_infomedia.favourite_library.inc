@@ -1,5 +1,10 @@
 <?php
 
+/** Form if user has no order library
+ * @param $form
+ * @param $form_state
+ * @return array|mixed
+ */
 function ting_infomedia_no_library_form($form, &$form_state) {
   if (isset($form_state['clicked_button']['#branch'])) {
     $branch = $form_state['clicked_button']['#branch'];
@@ -29,11 +34,18 @@ function ting_infomedia_no_library_form($form, &$form_state) {
   return $form;
 }
 
+/** Rebuild form_state
+ * @param $form
+ * @param $form_state
+ */
 function ting_infomedia_no_library_form_submit($form, &$form_state) {
   $form_state['rebuild'] = TRUE;
 }
 
-
+/** view agency search result
+ * @param $result
+ * @return array|mixed
+ */
 function ting_infomedia_parse_agency_search_result($result) {
   $form = array();
 
@@ -44,12 +56,19 @@ function ting_infomedia_parse_agency_search_result($result) {
   return $form;
 }
 
-
+/** execute agency search
+ * @param $query
+ * @return mixed
+ */
 function ting_infomedia_execute_open_agency_search($query) {
   $result = bibdk_vejviser_execute_agency_search($query);
   return _ting_infomedia_get_markup_for_agency_search_result($result);
 }
 
+/** Action for agency search result view
+ * @param $branch
+ * @return array
+ */
 function ting_infomedia_get_agency_action($branch) {
   return array(
     '#value' => t('select_favourite_library', array(), array('context' => 'ting_infomedia')),
@@ -60,6 +79,10 @@ function ting_infomedia_get_agency_action($branch) {
   );
 }
 
+/** rebuild form_state
+ * @param $form
+ * @param $form_state
+ */
 function ting_infomedia_select_library_submit($form, &$form_state) {
   $form_state['rebuild'] = true;
 }
@@ -67,6 +90,7 @@ function ting_infomedia_select_library_submit($form, &$form_state) {
 
 /**
  * Render user fields;
+ * TODO: Refaktor to use same form here, bibdk_favourites and bibdk_reservation
  */
 function ting_infomedia_user_form_fields($form, $form_state, $branch) {
   if (ding_user_is_provider_user()) {
