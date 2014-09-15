@@ -56,15 +56,6 @@ function ting_infomedia_parse_agency_search_result($result) {
   return $form;
 }
 
-/** execute agency search
- * @param $query
- * @return mixed
- */
-function ting_infomedia_execute_open_agency_search($query) {
-  $result = bibdk_vejviser_execute_agency_search($query);
-  return _ting_infomedia_get_markup_for_agency_search_result($result);
-}
-
 /** Action for agency search result view
  * @param $branch
  * @return array
