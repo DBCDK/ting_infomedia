@@ -81,7 +81,7 @@ function ting_infomedia_select_library_submit($form, &$form_state) {
 
 /**
  * Render user fields;
- * TODO: Refaktor to use same form here, bibdk_favourites and bibdk_reservation
+ * TODO: Refaktor to use same form here, in bibdk_favourites and bibdk_reservation
  */
 function ting_infomedia_user_form_fields($form, $form_state, $branch) {
   if (ding_user_is_provider_user()) {
