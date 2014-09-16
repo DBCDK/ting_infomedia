@@ -369,7 +369,16 @@ function _ting_infomedia_parse_infomedia_objects_to_articles($obj) {
   );
 
   if ( !empty($obj->error) ) {
-    $render['error'] = _ting_infomedia_parse_for_errors($obj->error);
+    $render['error']['message'] = _ting_infomedia_parse_for_errors($obj->error);
+    $render['error']['link'] = array(
+      '#theme' => 'link',
+      '#text' =>  t('infomedia_library_list', array(), array('context' => 'ting_infomedia')),
+      '#path' => 'overlay/infomedia/library_list',
+      '#options' => array(
+        'attributes' => array('data-rel' => 'bibdkFavorite', 'class' => array('bibdk-popup-link')),
+        'html' => true,
+      )
+    );
   }
   else {
     foreach ( $obj->parts as $n => $val ) {
