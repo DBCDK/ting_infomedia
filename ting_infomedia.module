@@ -339,7 +339,8 @@ function ting_infomedia_get_article($id) {
     // We do not want possible messages coming from bibdk_favourite
     // therefore we call drupal_get_messages to empty message que
     drupal_get_messages();
-    return _ting_infomedia_get_article_for_user_at_library($id, $order_library->getUserId(), $order_library->getPinCode(), $order_library->getAgencyId(), $order_library->getAgencyMainId());
+    $articles = _ting_infomedia_get_article_for_user_at_library($id, $order_library->getUserId(), $order_library->getPinCode(), $order_library->getAgencyId(), $order_library->getAgencyMainId());
+    return _ting_infomedia_parse_infomedia_objects_to_articles($articles);
   }
   else {
     return drupal_get_form('ting_infomedia_no_library_form');
@@ -461,9 +462,7 @@ function _ting_infomedia_get_article_for_user_at_library($id, $user_id, $user_pi
   }
 
   $client = new ting_client_class();
-  $ret = $client->do_request('infomediaArticle', $params);
-
-  return _ting_infomedia_parse_infomedia_objects_to_articles($ret);
+  return $client->do_request('infomediaArticle', $params);
 
 }
 
