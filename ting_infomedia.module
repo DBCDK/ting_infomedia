@@ -2,6 +2,7 @@
 
 // load field hooks
 module_load_include('inc', 'ting_infomedia', 'ting_infomedia.field');
+module_load_include('inc', 'ting_infomedia', 'ting_infomedia.favourite_library');
 
 
 
@@ -138,7 +139,7 @@ function ting_infomedia_view($id) {
     '#attached' => array(
       'css' => array(drupal_get_path('module', 'ting_infomedia') . '/css/ting_infomedia_article_view.css'),
     ),
-    'articles' => ting_infomedia_parse_articles($id),
+    'articles' => ting_infomedia_get_article($id),
     'print' => theme('image', array('path' => drupal_get_path('module', 'ting_infomedia') . '/img/ikon_printer.gif')) . "<span>" . t('print', array(), array('context' => 'ting_infomedia')) . "</span>",
   );
 }
@@ -177,32 +178,6 @@ function ting_infomedia_theme($existing, $type, $theme, $path) {
 }
 
 
-
-/**
- * Implements hook_form_FORM_ID_alter (ting_admin_ting_settings) (ie. Ding2)
- * Adding infomedia url form field to ting configuration form
- */
-/*
-  function ting_infomedia_form_ting_admin_ting_settings_alter(&$form, &$form_state, $form_id) {
-  $form['infomedia'] = array(
-  '#type' => 'fieldset',
-  '#title' => t('Infomedia settings'),
-  '#description' => t('Settings for bibdk Infomedia', array(), array('context' => 'ting_infomedia')),
-  '#weight' => -3,
-  );
-
-  $form['infomedia']['ting_infomedia_url'] = array(
-  '#type' => 'textfield',
-  '#title' => t('Infomedia web service URL', array(), array('context' => 'ting_infomedia')),
-  '#description' => t('URL to the infomedia webservice (access to infomedia article base) , e.g. http://useraccessinfomedia.addi.dk/1.2/'),
-  '#required' => TRUE,
-  '#default_value' => variable_get('ting_infomedia_url', ''),
-  );
-  }
- */
-
-
-
 /**
  * Implements hook_form_FORM_ID_alter (ting_client_admin_webservices_settings) (ie. Bibliotek.dk)
  * Adding infomedia url form field to webservices configuration form
@@ -224,8 +199,6 @@ function ting_infomedia_form_ting_client_admin_webservices_settings_alter(&$form
   );
 }
 
-
-
 /**
  * Implements hook_ting_openformat_getobject_params_alter. (@see ting_openformat.module)
  *
@@ -234,56 +207,6 @@ function ting_infomedia_form_ting_client_admin_webservices_settings_alter(&$form
 function ting_infomedia_ting_openformat_getobject_params_alter(&$params) {
   $params['relationData'] = 'uri';
 }
-
-
-
-/**
- * retrive articles from infomedia. Parse for errors, clean html and add html for errorhandling if needed.
- * return render array
- */
-function ting_infomedia_parse_articles($id) {
-
-  $render = array(
-    'article_tabs' => array(
-      '#theme' => 'item_list',
-      '#type' => 'ul',
-      '#attributes' => array(
-        'class' => array('article-tabs', 'clearfix'),
-      ),
-      '#items' => array(),
-    ),
-    'article_list' => array(
-      '#theme' => 'item_list',
-      '#type' => 'ul',
-      '#attributes' => array(
-        'class' => array('article-list'),
-      ),
-      '#items' => array(),
-    ),
-  );
-
-  $obj = ting_infomedia_get_article($id);
-
-  if ( !empty($obj->error) ) {
-    $render['error'] = _ting_infomedia_parse_for_errors($obj->error);
-  }
-  else {
-    foreach ( $obj->parts as $n => $val ) {
-      if ( $error = _ting_infomedia_parse_for_article_error($val) ) {
-        $render['error'] = _ting_infomedia_parse_for_errors($error);
-      }
-      else {
-        $render['article_list']['#items'][] = drupal_render(ting_infomedia_parse_article($val['article'], $n));
-        $render['article_tabs']['#items'][] = ting_infomedia_parse_article_tabs($val['article'], $n);
-      }
-    }
-  }
-  
-  return $render;
-
-}
-
-
 
 /**
  * Parse Infomedia article
@@ -384,8 +307,6 @@ function _ting_infomedia_parse_for_article_error($part) {
   return FALSE;
 }
 
-
-
 /**
  * Search/replace patterns
  * @html; Infomedia article html text
@@ -409,10 +330,71 @@ function _ting_infomedia_clean_html($html) {
   return $html;
 }
 
-
-
 function ting_infomedia_get_article($id) {
 
+  if(!ding_user_is_provider_user()){
+    return ting_infomedia_article_no_user();
+  }
+  else if($order_library = _ting_infomedia_get_user_order_library()) {
+    // We do not want possible messages coming from bibdk_favourite
+    // therefore we call drupal_get_messages to empty message que
+    drupal_get_messages();
+    $articles = _ting_infomedia_get_article_for_user_at_library($id, $order_library->getUserId(), $order_library->getPinCode(), $order_library->getAgencyId(), $order_library->getAgencyMainId());
+    return _ting_infomedia_parse_infomedia_objects_to_articles($articles);
+  }
+  else {
+    return drupal_get_form('ting_infomedia_no_library_form');
+  }
+}
+
+function _ting_infomedia_parse_infomedia_objects_to_articles($obj) {
+
+  $render = array(
+    'article_tabs' => array(
+      '#theme' => 'item_list',
+      '#type' => 'ul',
+      '#attributes' => array(
+        'class' => array('article-tabs', 'clearfix'),
+      ),
+      '#items' => array(),
+    ),
+    'article_list' => array(
+      '#theme' => 'item_list',
+      '#type' => 'ul',
+      '#attributes' => array(
+        'class' => array('article-list'),
+      ),
+      '#items' => array(),
+    ),
+  );
+
+  if ( !empty($obj->error) ) {
+    $render['error']['message'] = _ting_infomedia_parse_for_errors($obj->error);
+    $render['error']['link'] = array(
+      '#theme' => 'link',
+      '#text' =>  t('infomedia_library_list', array(), array('context' => 'ting_infomedia')),
+      '#path' => 'overlay/infomedia/library_list',
+      '#options' => array(
+        'attributes' => array('data-rel' => 'bibdkFavorite', 'class' => array('bibdk-popup-link')),
+        'html' => true,
+      )
+    );
+  }
+  else {
+    foreach ( $obj->parts as $n => $val ) {
+      if ( $error = _ting_infomedia_parse_for_article_error($val) ) {
+        $render['error'] = _ting_infomedia_parse_for_errors($error);
+      }
+      else {
+        $render['article_list']['#items'][] = drupal_render(ting_infomedia_parse_article($val['article'], $n));
+        $render['article_tabs']['#items'][] = ting_infomedia_parse_article_tabs($val['article'], $n);
+      }
+    }
+  }
+  return $render;
+}
+
+function _ting_infomedia_get_user_order_library() {
   // if we get this far we can assume that favourites are set in session
   $favourites = _ting_infomedia_get_favourites();
   $agencyMainId = NULL;
@@ -423,14 +405,45 @@ function ting_infomedia_get_article($id) {
   foreach ($favourites as $fav) {
     $favourite = unserialize($fav);
     if ($favourite->getOrderAgency()) {
-      $agencyMainId = $favourite->getAgencyMainId();
-      $library_code = $favourite->getAgencyId();
-      $user_id = $favourite->getUserId();
-      $user_pincode = $favourite->getPinCode();
+      return $favourite;
       break;
     }
   }
 
+
+}
+
+function ting_infomedia_article_no_user() {
+
+  $render_array = array(
+    '#type' => 'container',
+    '#attributes' => array(
+      'class' => array('reservation-online-links'),
+    ),
+  );
+  // Returner en login knap
+  $render_array['link'] = array(
+    '#theme' => 'link',
+    '#text' => t('Login to view infomedia articles', array(), array('context' => 'bibdk_reservation')),
+    '#path' => 'user/login',
+    '#options' => array(
+      'attributes' => array(),
+      'html' => true,
+    ),
+  );
+
+  return $render_array;
+}
+
+/**
+ * @param $id
+ * @param $user_id
+ * @param $user_pincode
+ * @param $library_code
+ * @param $agencyMainId
+ * @return bool|stdClass|string|TingClientInfomediaResult
+ */
+function _ting_infomedia_get_article_for_user_at_library($id, $user_id, $user_pincode, $library_code, $agencyMainId) {
   $library_list = bibdk_forsrights_get_library_list('infomedia');
 
   if (!in_array($library_code, $library_list)) {
@@ -458,10 +471,10 @@ function ting_infomedia_get_article($id) {
   }
 
   $client = new ting_client_class();
-  $ret = $client->do_request('infomediaArticle', $params);
+  return $client->do_request('infomediaArticle', $params);
 
-  return $ret;
 }
+
 
 t('user_incomplete_userdata', array(), array('context' => 'ting_infomedia.error'));
 t('not_infomedia_library', array(), array('context' => 'ting_infomedia.error'));

@@ -53,15 +53,9 @@ function _ting_infomedia_get_link($id, $relation_uri) {
 
   $title = t('infomedia_link_text', array(), array('context' => 'ting_infomedia'));
 
-  $user_status = _ting_infomedia_get_user_status();
-
   $link = array(
-    '#href'         => _ting_infomedia_get_href($id, $user_status, $relation_uri),
-    '#title'        => $title,
-    '#popup'        => (($user_status == 'user_is_infomedia_user') ? 'bibdk-popup-link ' : ''),
-    '#popover'      => (($user_status == 'user_is_infomedia_user') ? '' : 'popover-button '),
-    '#data-pid'     => $id,
-    '#user-message' => _ting_infomedia_get_user_message($user_status, $relation_uri),
+    '#href'   => _ting_infomedia_get_href($relation_uri),
+    '#title'  => $title,
     '#weight' => 0,
   );
 
@@ -122,7 +116,7 @@ function _ting_infomedia_get_user_status() {
     }
   }
 
-  
+
 
   return 'user_is_infomedia_user';
 }
@@ -158,8 +152,6 @@ function _ting_infomedia_borchk_parse_response($response) {
       return 'borchk_internal_error';
   }
 }
-
-
 
 /**
  * @return TingClientAgencyBranch
@@ -211,7 +203,6 @@ function _ting_infomedia_get_user_message($user_status, $relation_uri) {
 
 }
 
-
 /**
  * Get infomedia link href: Local anchor for error message, or link to popup.
  *
@@ -221,23 +212,9 @@ function _ting_infomedia_get_user_message($user_status, $relation_uri) {
  *
  * @return string
  */
-function _ting_infomedia_get_href($id, $user_status, $relation_uri) {
-
-  switch ( $user_status ) {
-    CASE 'user_is_infomedia_user':
-          // NOTE url is of type   [useraccessinfomedia]?action=getArticle&faust=89724244&libraryCode=[libraryCode]&userId=[userId]&userPinCode=[userPinCode]
-          $parts = explode('&', $relation_uri);
-          foreach ( $parts as $part ) {
-            $part = explode('=', $part);
-            if ( $part[0] == 'faust' ) {
-              $faust = $part[1];
-            }
-          }
-          return url('overlay/infomedia/' . $faust); break;
-    DEFAULT:
-          return '#' . $id;
-  }
-
+function _ting_infomedia_get_href($relation_uri) {
+  $query_string = drupal_parse_url($relation_uri);
+  return url('overlay/infomedia/' . $query_string['query']['faust']);
 }
 
 
