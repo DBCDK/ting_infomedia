@@ -50,8 +50,10 @@ function ting_infomedia_parse_agency_search_result($result) {
   $form = array();
 
   foreach ($result as $branch) {
-    $action = ting_infomedia_get_agency_action($branch);
-    $form += ting_agency_view_agency_branch($branch, $action);
+    $settings = array(
+      '#actions' => ting_infomedia_get_agency_action($branch)
+    );
+    $form += ting_agency_view_agency_branch($branch, $settings);
   }
   return $form;
 }
