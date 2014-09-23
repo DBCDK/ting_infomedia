@@ -14,7 +14,7 @@ function ting_infomedia_no_library_form($form, &$form_state) {
     $form = array(
       '#type' => 'container',
       '#attributes' => array(
-        'class' => array('infomedia-search-group'),
+        'class' => array('infomedia-search-group', 'form-wrapper'),
       ),
     );
     $form['description_tag'] = array(
