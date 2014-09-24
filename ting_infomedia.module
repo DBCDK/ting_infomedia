@@ -59,7 +59,14 @@ function ting_infomedia_ting_openformat_actions($type, $entity, $view_mode, $lan
   $element = array();
   if ($type == 'bibdkManifestation' && $url = $entity->getInfomediaLink()) {
     $link = _ting_infomedia_get_link($entity->id, $url);
-    $element['infomedia']['#markup'] = theme('ting_infomedia_button', array('ting_infomedia_button' => $link));
+    $element['infomedia'] =  array(
+      '#theme' => 'ting_infomedia_button',
+      '#ting_infomedia_button' => $link,
+      '#attr' => array(
+        'class' => array('infomedia-button', 'text-small', 'bibdk-popup-link'),
+        'data-rel' => 'reservation',
+      )
+    );
   }
   return $element;
 }
@@ -161,7 +168,7 @@ function ting_infomedia_view($id) {
 function ting_infomedia_theme($existing, $type, $theme, $path) {
   return array(
     'ting_infomedia_button' => array(
-      'variables' => array('ting_infomedia_button' => ''),
+      'variables' => array('ting_infomedia_button' => '', 'attr' => array()),
       'template' => 'theme/ting-infomedia-button',
     ),
     // page view definitions - view articles
@@ -176,7 +183,6 @@ function ting_infomedia_theme($existing, $type, $theme, $path) {
     ),
   );
 }
-
 
 /**
  * Implements hook_form_FORM_ID_alter (ting_client_admin_webservices_settings) (ie. Bibliotek.dk)

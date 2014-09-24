@@ -33,7 +33,14 @@ function ting_infomedia_field_formatter_view($entity_type, $entity, $field, $ins
   foreach ($items as $delta => $item) {
     if ($url = $entity->getInfomediaLink()) {
       $link = _ting_infomedia_get_link($entity->ding_entity_id, $url);
-      $element[$delta]['#markup'] = theme('ting_infomedia_button', array('ting_infomedia_button' => $link));
+      $element[$delta] = array(
+        '#theme' => 'ting_infomedia_button',
+        '#ting_infomedia_button' => $link,
+        '#attr' => array(
+          'class' => array('infomedia-button', 'text-small', 'bibdk-popup-link'),
+          'data-rel' => 'reservation',
+        )
+      );
     }
   }
 
