@@ -162,6 +162,8 @@ function _ting_infomedia_borchk_parse_response($response) {
 
 /**
  * @return TingClientAgencyBranch
+ *
+ * @todo: remove use bibdk_favourite_get_favourites instead
  */
 function _ting_infomedia_get_favourites() {
   if (isset($_SESSION['bibdk_favourites'])) {
