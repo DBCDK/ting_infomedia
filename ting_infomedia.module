@@ -322,7 +322,7 @@ function _ting_infomedia_parse_for_article_error($part) {
 function _ting_infomedia_clean_html($html) {
 
   $patterns = array();
-  $patterns[0] = '/<p id="(.+)">/';
+  $patterns[0] = '#<p id="(.*?)">#';
   $patterns[1] = '/<hl2>/';
   $patterns[2] = '/<\/hl2>/';
 
