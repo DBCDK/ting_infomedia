@@ -342,19 +342,18 @@ function ting_infomedia_get_article_form($form, $form_state, $id) {
     return ting_infomedia_article_no_user();
   }
 
-  // Get user order library
-  $result = ding_provider_invoke('agency', 'get_order_library', $form, $form_state);
-  if(isset($result['order_library'])) {
-    $order_library = $result['order_library'];
-    $articles = _ting_infomedia_get_article_for_user_at_library($id, $order_library->getUserId(), $order_library->getPinCode(), $order_library->getAgencyId(), $order_library->getAgencyMainId());
+  //find favourit library who gives access to infomedia
+  $favourites = bibdk_favourite_get_favourites();
+  foreach($favourites as $favourit ) {
+    $articles = _ting_infomedia_get_article_for_user_at_library($id, $favourit->getUserId(), $favourit->getPinCode(), $favourit->getAgencyId(), $favourit->getAgencyMainId());
+    if (empty($articles->error) ) {
+      return _ting_infomedia_parse_infomedia_objects_to_articles($articles);
+    }
+  }
 
-    return _ting_infomedia_parse_infomedia_objects_to_articles($articles);
-  }
-  else {
-    // if user does not have a valid order library hook_agency_get_order_library
-    // returns the relevant form
-    return $result;
-  }
+  // if user does not have a valid order library hook_agency_get_order_library
+  // returns the relevant form
+  return  ding_provider_invoke('agency', 'get_order_library', $form, $form_state);
 }
 
 function _ting_infomedia_parse_infomedia_objects_to_articles($obj) {
@@ -396,7 +395,8 @@ function _ting_infomedia_parse_infomedia_objects_to_articles($obj) {
         $render['error'] = _ting_infomedia_parse_for_errors($error);
       }
       else {
-        $render['article_list']['#items'][] = drupal_render(ting_infomedia_parse_article($val['article'], $n));
+        $articel_list = ting_infomedia_parse_article($val['article'], $n);
+        $render['article_list']['#items'][] = drupal_render($articel_list);
         $render['article_tabs']['#items'][] = ting_infomedia_parse_article_tabs($val['article'], $n);
       }
     }
