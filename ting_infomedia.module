@@ -356,6 +356,14 @@ function ting_infomedia_get_article_form($form, $form_state, $id) {
   $agency = ding_provider_invoke('agency', 'get_order_library', $form, $form_state);
 }
 
+/**
+ * Parse errors into a form to display.
+ *
+ * @param array $errors
+ *   array of the form [error, agency]
+ * @return array
+ *   Render array for drupal_get_form
+ */
 function ting_infomedia_error_form($errors) {
   $error_form = array(
     'heading' => array(
