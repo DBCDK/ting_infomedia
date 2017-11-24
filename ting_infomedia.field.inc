@@ -71,7 +71,7 @@ function _ting_infomedia_get_link($id, $relation_uri) {
 
 
 /**
- * @return user status
+ * @return string user status
  */
 function _ting_infomedia_get_user_status() {
   global $user;
@@ -118,7 +118,7 @@ function _ting_infomedia_get_user_status() {
     $library_code = ( (int)$library_code === 0 ) ? $library_code : 'DK-' . $library_code;
     $borchk = bibdk_borchk_request($user_id, $user_pincode, $library_code, 'json', 'infomedia');
     $borchk_message = _ting_infomedia_borchk_parse_response($borchk->borrowerCheckResponse->requestStatus);
-    if ( $borchk_message ) {
+    if ( !empty($borchk_message) ) {
       return $borchk_message;
     }
   }
@@ -133,7 +133,7 @@ function _ting_infomedia_get_user_status() {
  * Parse response from borchk and return messages
  *
  * @param string $response
- * @return array
+ * @return string
  */
 function _ting_infomedia_borchk_parse_response($response) {
   if ( is_object($response) ) {
@@ -141,7 +141,7 @@ function _ting_infomedia_borchk_parse_response($response) {
   }
   switch ($response) {
     case 'ok' :
-      return;
+      return '';
       break;
     case 'borrower_not_found' :
       return 'borchk_borrower_not_found';
@@ -161,23 +161,12 @@ function _ting_infomedia_borchk_parse_response($response) {
 }
 
 /**
- * @return TingClientAgencyBranch
- *
- * @todo: remove use bibdk_favourite_get_favourites instead
+ * Get favourites
+ * @return array
  */
 function _ting_infomedia_get_favourites() {
-  if (isset($_SESSION['bibdk_favourites'])) {
-    $favourites = $_SESSION['bibdk_favourites'];
-  }
-  else {
-    $favourites = _bibdk_favourite_get_from_webservice();
-    foreach ($favourites as $favourite) {
-      bibdk_favourite_add_favourite_to_session($favourite);
-    }
-  }
-  return isset($_SESSION['bibdk_favourites']) ? $_SESSION['bibdk_favourites'] : array() ;
+  return bibdk_favourite_get_favourites();
 }
-
 
 /**
  * Determine user message, depending on logged in status
