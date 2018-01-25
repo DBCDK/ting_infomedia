@@ -54,18 +54,67 @@ function ting_infomedia_menu() {
  */
 function ting_infomedia_ting_openformat_actions($type, $entity, $view_mode, $langcode) {
   $element = array();
+  /** @var Manifestation $entity */
   if ($type == 'bibdkManifestation' && $url = $entity->getInfomediaLink()) {
-    $link = _ting_infomedia_get_link($entity->id, $url);
-    $element['infomedia'] = array(
-      '#theme' => 'ting_infomedia_button',
-      '#ting_infomedia_button' => $link,
-      '#attr' => array(
-        'class' => array('infomedia-button', 'text-small', 'bibdk-popup-link'),
-        'data-rel' => 'reservation',
-      )
-    );
+    if (user_is_anonymous()) {
+      $element['infomedia'] = ting_infomedia_not_logged_in_link();
+      return $element;
+    }
+    $element['infomedia'] = ting_infomedia_get_logged_in_link($entity->id, $url);
   }
   return $element;
+}
+
+function ting_infomedia_get_logged_in_link($entity_id, $url) {
+  $link = _ting_infomedia_get_link($entity_id, $url);
+  $infomedia_link = array(
+    '#theme' => 'ting_infomedia_button',
+    '#ting_infomedia_button' => $link,
+    '#attr' => array(
+      'class' => array('infomedia-button', 'text-small', 'bibdk-popup-link'),
+      'data-rel' => 'reservation',
+    )
+  );
+  return $infomedia_link;
+}
+
+function ting_infomedia_not_logged_in_link() {
+  $button = array(
+    '#title' => t('infomedia_link_text', array(), array('context' => 'ting_infomedia')),
+    '#href' => '*',
+    '#hidden_link' => ting_infomedia_log_in_link(),
+
+  );
+
+  $infomedia_link = array(
+    '#theme' => 'ting_infomedia_button',
+    '#ting_infomedia_button' => $button,
+    '#attr' => array(
+      'class' => array('infomedia-button', 'text-small'),
+      'data-rel' => 'reservation',
+    ),
+    '#attached' => array(
+      'js' => array(
+        drupal_get_path('module', 'ting_infomedia') . '/js/ting_infomedia_not_logged_in.js',
+      )
+    ),
+  );
+  return $infomedia_link;
+}
+
+function ting_infomedia_log_in_link() {
+  return array(
+    '#theme' => 'link',
+    '#text' => t('login to read infomedia articles', array(), array('context' => 'ting_infomedia')),
+    '#path' => 'user/login',
+    '#options' => array(
+      'attributes' => array(
+        'id' => 'infomedia_toggle_link',
+      'class' => array('hidden')
+      ),
+      'html' => FALSE,
+    ),
+  );
 }
 
 

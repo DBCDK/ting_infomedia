@@ -12,6 +12,8 @@ dependencies[] = ting_openformat
 dependencies[] = virtual_field
 dependencies[] = bibdk_forsrights
 
+scripts[] = js/ting_infomedia.js
+
 
 files[] = ting_infomedia.field.inc
 files[] = test/ting_infomedia.test
