@@ -24,12 +24,12 @@ function ting_infomedia_field_formatter_info() {
 
 
 /**
+ * @TODO it this function used anywhere .. if not DELETE (the whole field definition
+ *
  * Implements hook_field_formatter_view().
  */
 function ting_infomedia_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
-
   $element = array();
-
   foreach ($items as $delta => $item) {
     if ($url = $entity->getInfomediaLink()) {
       $link = _ting_infomedia_get_link($entity->ding_entity_id, $url);
@@ -41,9 +41,9 @@ function ting_infomedia_field_formatter_view($entity_type, $entity, $field, $ins
           'data-rel' => 'reservation',
         )
       );
+
     }
   }
-
   return $element;
 }
 
@@ -57,7 +57,6 @@ function ting_infomedia_field_formatter_view($entity_type, $entity, $field, $ins
  * @return array
  */
 function _ting_infomedia_get_link($id, $relation_uri) {
-
   $title = t('infomedia_link_text', array(), array('context' => 'ting_infomedia'));
 
   $link = array(
@@ -65,6 +64,7 @@ function _ting_infomedia_get_link($id, $relation_uri) {
     '#title'  => $title,
     '#weight' => 0,
   );
+
 
   return $link;
 }
