@@ -65,6 +65,13 @@ function ting_infomedia_ting_openformat_actions($type, $entity, $view_mode, $lan
   return $element;
 }
 
+/**
+ * Get a link to read infomedia article/reviews
+ * @param $entity_id
+ * @param $url
+ * @return array
+ *   Array for ting_infomedia_button (@see theme/ting-infomedia-button.tpl.php)
+ */
 function ting_infomedia_get_logged_in_link($entity_id, $url) {
   $link = _ting_infomedia_get_link($entity_id, $url);
   $infomedia_link = array(
@@ -78,12 +85,18 @@ function ting_infomedia_get_logged_in_link($entity_id, $url) {
   return $infomedia_link;
 }
 
+/**
+ * Get a link to display if user is NOT logged in.
+ * Attach javascript to toggle message if link is clicked
+ *
+ * @return array
+ *   Array for ting_infomedia_button (@see theme/ting-infomedia-button.tpl.php)
+ */
 function ting_infomedia_not_logged_in_link() {
   $button = array(
     '#title' => t('infomedia_link_text', array(), array('context' => 'ting_infomedia')),
     '#href' => '*',
     '#hidden_link' => ting_infomedia_log_in_link(),
-
   );
 
   $infomedia_link = array(
@@ -102,6 +115,10 @@ function ting_infomedia_not_logged_in_link() {
   return $infomedia_link;
 }
 
+/**
+ * Get a link for user/login
+ * @return array
+ */
 function ting_infomedia_log_in_link() {
   return array(
     '#theme' => 'link',
