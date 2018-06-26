@@ -3,7 +3,7 @@
     attach:function(context) {
        $('a.infomedia-button',context).click(function(e){
         e.preventDefault();
-        $('#infomedia_toggle_link').toggleClass('hidden');
+        $(this).next('#infomedia_toggle_link').toggleClass('hidden');
       })
     }
   }
