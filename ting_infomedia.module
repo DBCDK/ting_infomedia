@@ -12,10 +12,10 @@ module_load_include('inc', 'ting_infomedia', 'ting_infomedia.favourite_library')
  */
 function ting_infomedia_ting_client_webservice() {
   $ret = array();
-  $ret['infomediaArticle']['class'] = 'TingClientInfomediaArticleRequest';
-  $ret['infomediaArticle']['url'] = 'ting_infomedia_url';
-  $ret['infomediaArticle']['custom_parse'] = 'parse';
-
+  $ret['TingClientInfomediaArticleRequest']['class'] = 'TingClientInfomediaArticleRequest';
+  $ret['TingClientInfomediaArticleRequest']['url'] = 'TingClientInfomediaArticleRequest_url';
+  $ret['TingClientInfomediaArticleRequest']['custom_parse'] = 'parse';
+  // infomediaArticle
   return $ret;
 }
 
@@ -255,12 +255,12 @@ function ting_infomedia_form_ting_client_admin_webservices_settings_alter(&$form
     '#weight' => -3,
   );
 
-  $form['infomedia']['ting_infomedia_url'] = array(
+  $form['infomedia']['TingClientInfomediaArticleRequest_url'] = array(
     '#type' => 'textfield',
     '#title' => t('Infomedia web service URL', array(), array('context' => 'ting_infomedia')),
     '#description' => t('URL to the infomedia webservice (access to infomedia article base) , e.g. http://useraccessinfomedia.addi.dk/1.2/', array(), array('context' => 'ting_infomedia')),
     '#required' => TRUE,
-    '#default_value' => variable_get('ting_infomedia_url', ''),
+    '#default_value' => variable_get('TingClientInfomediaArticleRequest_url', ''),
   );
 }
 
@@ -571,7 +571,7 @@ function _ting_infomedia_get_article_for_user_at_library($id, $user_id, $user_pi
   }
 
   $client = new ting_client_class();
-  return $client->do_request('infomediaArticle', $params);
+  return $client->do_request('TingClientInfomediaArticleRequest', $params);
 
 }
 
