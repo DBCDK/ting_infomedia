@@ -179,7 +179,7 @@ function ting_infomedia_librarylist() {
             );
             $ret['#sortme'] = $branchName;
             $ret['#markup'] .=
-              theme('ting_agency_library', array('branchName' => $branchName, 'moreinfo' => $moreinfo, 'add_classes' => array('ting-infomedia-agency-list')));
+              theme('bibdk_favourite_library', array('branchName' => $branchName, 'moreinfo' => $moreinfo, 'add_classes' => array('ting-infomedia-agency-list')));
           }
         }
       }
@@ -403,8 +403,9 @@ function ting_infomedia_get_article_form($form, $form_state, $id) {
   //find favourit library who gives access to infomedia
   $favourites = bibdk_favourite_get_favourites();
   $errors = array();
+  /** @var FavouriteAgency $favourit */
   foreach ($favourites as $favourit) {
-    $articles = _ting_infomedia_get_article_for_user_at_library($id, $favourit->getUserId(), $favourit->getPinCode(), $favourit->getAgencyId(), $favourit->getAgencyMainId());
+    $articles = _ting_infomedia_get_article_for_user_at_library($id, $favourit->getUserId(), $favourit->getPinCode(), $favourit->getAgencyId(), $favourit->getMainAgencyId());
     if (empty($articles->error)) {
       return _ting_infomedia_parse_infomedia_objects_to_articles($articles);
     }
