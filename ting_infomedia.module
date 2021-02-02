@@ -146,11 +146,10 @@ function ting_infomedia_librarylist() {
 
   if ($list) {
     foreach ($list as $agencyId) {
-      $agency = new TingAgency($agencyId);
       // only add agency if branch is not empty
-      $branch = $agency->getBranch();
+      $branch = vip_core_findlibrary($agencyId);
       if (!empty($branch)) {
-        $ret[] = $agency;
+        $ret[] = $branch;
       }
     }
 
@@ -164,11 +163,14 @@ function ting_infomedia_librarylist() {
 
     $ret['#markup'] .= '<h3 class="library-list-header">' . t('list_of_libraries_with_infomedia_acces', array(), array('context' => 'ting_infomedia')) . '</h2>';
     global $language;
-    foreach ($ret as $key => $val) {
-      if (is_object($val)) {
-        $branch = $val->getBranch();
+    /**
+     * @var integer $key
+     * @var VipCoreAgencyBranch $branch
+     */
+    foreach ($ret as $key => $branch) {
+      if (is_object($branch)) {
         if (isset($branch)) {
-          $branchName = $branch->agencyName;
+          $branchName = $branch->getAgencyName();
           if (isset($branchName)) {
             $moreinfo = theme('ting_agency_more_info', array('branch' => $branch,
                 'openingHours' => theme('ting_agency_opening_hours', array('branch' => $branch)),
